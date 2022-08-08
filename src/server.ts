@@ -60,7 +60,7 @@ app.get<{ id: string }>("/todos/:id", (req, res) => {
 });
 
 // DELETE /items/:id
-app.delete<{ id: string }>("/items/:id", (req, res) => {
+app.delete<{ id: string }>("/todos/:id", (req, res) => {
   const matchingTodo = getDbItemById(parseInt(req.params.id));
   if (matchingTodo === "not found") {
     res.status(404).json(matchingTodo);
@@ -70,7 +70,7 @@ app.delete<{ id: string }>("/items/:id", (req, res) => {
 });
 
 // PATCH /items/:id
-app.patch<{ id: string }, {}, Partial<DbItem>>("/items/:id", (req, res) => {
+app.patch<{ id: string }, {}, Partial<DbItem>>("/todos/:id", (req, res) => {
   const matchingTodo = updateDbItemById(parseInt(req.params.id), req.body);
   if (matchingTodo === "not found") {
     res.status(404).json(matchingTodo);
