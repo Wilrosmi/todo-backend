@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import {
-  addDummyDbItems,
+  // addDummyDbItems,
   addDbItem,
   getAllDbItems,
   getDbItemById,
@@ -13,7 +13,7 @@ import filePath from "./filePath";
 
 // loading in some dummy items into the database
 // (comment out if desired, or change the number)
-addDummyDbItems(20);
+//addDummyDbItems(20);
 
 const app = express();
 
@@ -29,53 +29,53 @@ dotenv.config();
 const PORT_NUMBER = process.env.PORT ?? 4000;
 
 // API info page
-app.get("/", (req, res) => {
-  const pathToFile = filePath("../public/index.html");
-  res.sendFile(pathToFile);
-});
+// app.get("/", (req, res) => {
+//   const pathToFile = filePath("../public/index.html");
+//   res.sendFile(pathToFile);
+// });
 
 // GET /items
-app.get("/items", (req, res) => {
-  const allSignatures = getAllDbItems();
-  res.status(200).json(allSignatures);
+app.get("/todos", (req, res) => {
+  const allTodos = getAllDbItems();
+  res.status(200).json(allTodos);
 });
 
 // POST /items
-app.post<{}, {}, DbItem>("/items", (req, res) => {
+app.post<{}, {}, DbItem>("/todos", (req, res) => {
   // to be rigorous, ought to handle non-conforming request bodies
   // ... but omitting this as a simplification
   const postData = req.body;
-  const createdSignature = addDbItem(postData);
-  res.status(201).json(createdSignature);
+  const createdTodo = addDbItem(postData);
+  res.status(201).json(createdTodo);
 });
 
 // GET /items/:id
-app.get<{ id: string }>("/items/:id", (req, res) => {
-  const matchingSignature = getDbItemById(parseInt(req.params.id));
-  if (matchingSignature === "not found") {
-    res.status(404).json(matchingSignature);
+app.get<{ id: string }>("/todos/:id", (req, res) => {
+  const matchingTodo = getDbItemById(parseInt(req.params.id));
+  if (matchingTodo === "not found") {
+    res.status(404).json(matchingTodo);
   } else {
-    res.status(200).json(matchingSignature);
+    res.status(200).json(matchingTodo);
   }
 });
 
 // DELETE /items/:id
 app.delete<{ id: string }>("/items/:id", (req, res) => {
-  const matchingSignature = getDbItemById(parseInt(req.params.id));
-  if (matchingSignature === "not found") {
-    res.status(404).json(matchingSignature);
+  const matchingTodo = getDbItemById(parseInt(req.params.id));
+  if (matchingTodo === "not found") {
+    res.status(404).json(matchingTodo);
   } else {
-    res.status(200).json(matchingSignature);
+    res.status(200).json(matchingTodo);
   }
 });
 
 // PATCH /items/:id
 app.patch<{ id: string }, {}, Partial<DbItem>>("/items/:id", (req, res) => {
-  const matchingSignature = updateDbItemById(parseInt(req.params.id), req.body);
-  if (matchingSignature === "not found") {
-    res.status(404).json(matchingSignature);
+  const matchingTodo = updateDbItemById(parseInt(req.params.id), req.body);
+  if (matchingTodo === "not found") {
+    res.status(404).json(matchingTodo);
   } else {
-    res.status(200).json(matchingSignature);
+    res.status(200).json(matchingTodo);
   }
 });
 

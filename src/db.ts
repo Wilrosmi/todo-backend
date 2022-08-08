@@ -1,8 +1,10 @@
 export interface DbItem {
-  // sketch out interface here
+  title: string;
+  body: string;
 }
 
 export interface DbItemWithId extends DbItem {
+  creationDate: Date;
   id: number;
 }
 
@@ -17,16 +19,16 @@ let idCounter = 0;
  * @param n - the number of items to generate
  * @returns the created items
  */
-export const addDummyDbItems = (n: number): DbItemWithId[] => {
-  const createdSignatures: DbItemWithId[] = [];
-  for (let count = 0; count < n; count++) {
-    const createdSignature = addDbItem({
-      // possibly add some generated data here
-    });
-    createdSignatures.push(createdSignature);
-  }
-  return createdSignatures;
-};
+// export const addDummyDbItems = (n: number): DbItemWithId[] => {
+//   const createdSignatures: DbItemWithId[] = [];
+//   for (let count = 0; count < n; count++) {
+//     const createdSignature = addDbItem({
+//       // possibly add some generated data here
+//     });
+//     createdSignatures.push(createdSignature);
+//   }
+//   return createdSignatures;
+// };
 
 /**
  * Adds in a single item to the database
@@ -37,6 +39,7 @@ export const addDummyDbItems = (n: number): DbItemWithId[] => {
 export const addDbItem = (data: DbItem): DbItemWithId => {
   const newEntry: DbItemWithId = {
     id: ++idCounter,
+    creationDate: new Date(),
     ...data,
   };
   db.push(newEntry);
