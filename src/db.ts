@@ -121,6 +121,8 @@ export const updateDbItemById = (
   const idxOfEntry = findIndexOfDbItemById(id);
   // type guard against "not found"
   if (typeof idxOfEntry === "number") {
+    db[idxOfEntry].body = newData.body ?? db[idxOfEntry].body
+    db[idxOfEntry].title = newData.title ?? db[idxOfEntry].title
     return Object.assign(db[idxOfEntry], newData);
   } else {
     return "not found";

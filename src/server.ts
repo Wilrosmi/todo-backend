@@ -8,6 +8,7 @@ import {
   getDbItemById,
   DbItem,
   updateDbItemById,
+  deleteDbItemById,
 } from "./db";
 import filePath from "./filePath";
 
@@ -65,6 +66,7 @@ app.delete<{ id: string }>("/todos/:id", (req, res) => {
   if (matchingTodo === "not found") {
     res.status(404).json(matchingTodo);
   } else {
+    deleteDbItemById(parseInt(req.params.id));
     res.status(200).json(matchingTodo);
   }
 });
@@ -75,6 +77,7 @@ app.patch<{ id: string }, {}, Partial<DbItem>>("/todos/:id", (req, res) => {
   if (matchingTodo === "not found") {
     res.status(404).json(matchingTodo);
   } else {
+    updateDbItemById(parseInt(req.params.id), req.body)
     res.status(200).json(matchingTodo);
   }
 });
