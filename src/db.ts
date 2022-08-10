@@ -14,23 +14,6 @@ const db: DbItemWithId[] = [];
 let idCounter = 0;
 
 /**
- * Adds in some dummy database items to the database
- *
- * @param n - the number of items to generate
- * @returns the created items
- */
-// export const addDummyDbItems = (n: number): DbItemWithId[] => {
-//   const createdSignatures: DbItemWithId[] = [];
-//   for (let count = 0; count < n; count++) {
-//     const createdSignature = addDbItem({
-//       // possibly add some generated data here
-//     });
-//     createdSignatures.push(createdSignature);
-//   }
-//   return createdSignatures;
-// };
-
-/**
  * Adds in a single item to the database
  *
  * @param data - the item data to insert in
@@ -57,7 +40,7 @@ export const deleteDbItemById = (id: number): DbItemWithId | "not found" => {
   const idxToDeleteAt = findIndexOfDbItemById(id);
   if (typeof idxToDeleteAt === "number") {
     const itemToDelete = getDbItemById(id);
-    db.splice(idxToDeleteAt, 1); // .splice can delete from an array
+    db.splice(idxToDeleteAt, 1);
     return itemToDelete;
   } else {
     return "not found";
@@ -121,8 +104,8 @@ export const updateDbItemById = (
   const idxOfEntry = findIndexOfDbItemById(id);
   // type guard against "not found"
   if (typeof idxOfEntry === "number") {
-    db[idxOfEntry].body = newData.body ?? db[idxOfEntry].body
-    db[idxOfEntry].title = newData.title ?? db[idxOfEntry].title
+    db[idxOfEntry].body = newData.body ?? db[idxOfEntry].body;
+    db[idxOfEntry].title = newData.title ?? db[idxOfEntry].title;
     return Object.assign(db[idxOfEntry], newData);
   } else {
     return "not found";

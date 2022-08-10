@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import {
-  // addDummyDbItems,
   addDbItem,
   getAllDbItems,
   getDbItemById,
@@ -10,11 +9,6 @@ import {
   updateDbItemById,
   deleteDbItemById,
 } from "./db";
-import filePath from "./filePath";
-
-// loading in some dummy items into the database
-// (comment out if desired, or change the number)
-//addDummyDbItems(20);
 
 const app = express();
 
@@ -29,28 +23,20 @@ dotenv.config();
 // use the environment variable PORT, or 4000 as a fallback
 const PORT_NUMBER = process.env.PORT ?? 4000;
 
-// API info page
-// app.get("/", (req, res) => {
-//   const pathToFile = filePath("../public/index.html");
-//   res.sendFile(pathToFile);
-// });
-
-// GET /items
+// GET /todos
 app.get("/todos", (req, res) => {
   const allTodos = getAllDbItems();
   res.status(200).json(allTodos);
 });
 
-// POST /items
+// POST /todos
 app.post<{}, {}, DbItem>("/todos", (req, res) => {
-  // to be rigorous, ought to handle non-conforming request bodies
-  // ... but omitting this as a simplification
   const postData = req.body;
   const createdTodo = addDbItem(postData);
   res.status(201).json(createdTodo);
 });
 
-// GET /items/:id
+// GET /todos/:id
 app.get<{ id: string }>("/todos/:id", (req, res) => {
   const matchingTodo = getDbItemById(parseInt(req.params.id));
   if (matchingTodo === "not found") {
@@ -60,7 +46,7 @@ app.get<{ id: string }>("/todos/:id", (req, res) => {
   }
 });
 
-// DELETE /items/:id
+// DELETE /todos/:id
 app.delete<{ id: string }>("/todos/:id", (req, res) => {
   const matchingTodo = getDbItemById(parseInt(req.params.id));
   if (matchingTodo === "not found") {
@@ -71,13 +57,13 @@ app.delete<{ id: string }>("/todos/:id", (req, res) => {
   }
 });
 
-// PATCH /items/:id
+// PATCH /todos/:id
 app.patch<{ id: string }, {}, Partial<DbItem>>("/todos/:id", (req, res) => {
   const matchingTodo = updateDbItemById(parseInt(req.params.id), req.body);
   if (matchingTodo === "not found") {
     res.status(404).json(matchingTodo);
   } else {
-    updateDbItemById(parseInt(req.params.id), req.body)
+    updateDbItemById(parseInt(req.params.id), req.body);
     res.status(200).json(matchingTodo);
   }
 });
